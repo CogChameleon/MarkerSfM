@@ -7,7 +7,7 @@ This work explores how to use the presence of fiducial markers in scenes to impr
 You can contact Joseph DeGol (degol2@illinois.edu) with any questions, problems, or suggestions.
 
 ## License ##
-This code is released under the MIT License (see the LICENSE file for details). This work is built on top of [OpenSfM](https://github.com/mapillary/OpenSfM) which is released under the [BSD 2-Clause "Simplified" License](https://github.com/mapillary/OpenSfM/blob/master/LICENSE). There are also several dependencies including [OpenCV](https://opencv.org/), [OpenGV](http://laurentkneip.github.io/opengv/), [Ceres Solver](http://ceres-solver.org/), and [Boost Python](https://www.boost.org/), each released with a license that may be worth checking depending on your needs.
+This code is released under the BSD 2-Clause "Simplified" License (see the LICENSE file for details). This work is built on top of [OpenSfM](https://github.com/mapillary/OpenSfM) which is also released under the [BSD 2-Clause "Simplified" License](https://github.com/mapillary/OpenSfM/blob/master/LICENSE). There are also several dependencies including [OpenCV](https://opencv.org/), [OpenGV](http://laurentkneip.github.io/opengv/), [Ceres Solver](http://ceres-solver.org/), and [Boost Python](https://www.boost.org/), each released with a license that may be worth checking depending on your needs.
 
 
 ## Citing ##
