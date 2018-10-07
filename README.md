@@ -83,7 +83,7 @@ export PATH=$PATH:/usr/local/bin
 #### OpenCV ####
 OpenCV is required to build and run this code. These instructions are adapted from the [this OpenCV tutorial](http://docs.opencv.org/3.1.0/d7/d9f/tutorial_linux_install.html).
 
-First, download OpenCV 3.1.0 or higher.
+First, download OpenCV 3.4.3.
 ```
 cd ~/Downloads
 wget https://github.com/opencv/opencv/archive/3.4.3.zip
@@ -114,7 +114,7 @@ make -j
 sudo make install
 ```
 
-OpenCV should now be installed in your system. If you choose to download a different version from 3.1.0, change the text above appropriately. If these instructions do not work for your version of OpenCV, please check the OpenCV provided tutorial for your version because there may be small differences. Note that you can also install opencv using apt with `sudo apt-get install libopencv-dev python-opencv`, but I always build from source, so I don't know if this will provide you with the correct version.
+OpenCV should now be installed in your system. If you choose to download a different version from 3.4.3, change the text above appropriately. If these instructions do not work for your version of OpenCV, please check the OpenCV provided tutorial for your version because there may be small differences. Note that you can also install opencv using apt with `sudo apt-get install libopencv-dev python-opencv`, but I always build from source, so I don't know if this will provide you with the correct version.
 
 #### Ceres ####
 Next, we need to build Ceres solver from source and install it.
