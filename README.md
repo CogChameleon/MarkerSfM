@@ -105,7 +105,7 @@ sudo apt-get install libdc1394-22-dev
 
 Finally, build OpenCV
 ```
-unzip opencv-3.4.3.zip
+unzip 3.4.3.zip
 cd opencv-3.4.3
 mkdir build
 cd build
