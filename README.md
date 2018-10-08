@@ -43,6 +43,7 @@ sudo apt-get install python-pyexiv2
 sudo apt-get install python-pyproj
 sudo apt-get install python-scipy
 sudo apt-get install python-yaml
+sudo pip install --upgrade pip
 sudo pip install exifread==2.1.2
 sudo pip install gpxpy==1.1.2
 sudo pip install networkx==1.11
