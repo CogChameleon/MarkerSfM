@@ -153,10 +153,10 @@ python setup.py build
 
 
 ## Usage ##
-A run script is provided to process the ece_floor4_wall images. This script is located in in `.../scripts` and it called `run_markersfm.sh`. To run the script with the demo data, type:
+A run script is provided to process the ece_floor4_wall images. This script is located in in `.../scripts` and it is called `run_markersfm.sh`. Note, you should provide the ABSOLUTE PATH to the dataset you want to process. To run the script with the demo data, type:
 ```
 cd scripts
-bash run_markersfm.sh ../data/ece_floor4_wall
+bash run_markersfm.sh ~/ABSOLUTE_PATH_TO/MarkerSfM/data/ece_floor4_wall
 ```
 
 There are also a bunch of parameters that can be set in the config.yaml file. I suggest that you copy the config.yaml in the project to each data folder you want to process. The main parameter that you definitely want to change is `processes`, which you should set to the number of vcpu's on your machine.
