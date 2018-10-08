@@ -161,9 +161,10 @@ make -j
 sudo make install
 ```
 
-### MarkerSfM ###
+#### MarkerSfM ####
 To clone and build MarkerSfM, move to a directory where you want the source to live and then run the following commands in a Unix terminal.
 ```
+git clone https://github.com/CogChameleon/MarkerSfM.git
 cd MarkerSfM
 python setup.py build
 ```
