@@ -291,7 +291,10 @@ class DataSet:
         return os.path.join(self.__feature_path(), image + '.flann')
 
     def load_feature_index(self, image, features):
-        index = cv2.flann.Index() if context.OPENCV3 else cv2.flann_Index()
+        try:
+            index = cv2.flann_Index()
+        except:
+            index = cv2.flann.Index()
         index.load(features, self.__feature_index_file(image))
         return index
 

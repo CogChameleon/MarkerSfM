@@ -34,7 +34,7 @@ lowes_ratio: 0.8              # Ratio test for matches
 preemptive_lowes_ratio: 0.6   # Ratio test for preemptive matches
 matcher_type: FLANN           # FLANN or BRUTEFORCE
 prune_with_metadata: no       # If on, will prune matches by gps, time, sequence, etc...
-prune_with_tags: yes           # If on, will prune matches using tags
+prune_with_tags: strict       # 'strict','medium','loose','none' - strict will not merge separate components, medium will merge single unconnected images, loose will merge all
 
 # Params for FLANN matching
 flann_branching: 16           # See OpenCV doc
@@ -94,7 +94,7 @@ nav_vertical_threshold: 20            # Maximum vertical angle difference in mot
 nav_rotation_threshold: 30            # Maximum general rotation in degrees between cameras for steps
 
 # Other params
-processes: 32                  # Number of threads to use
+processes: 8                  # Number of threads to use
 
 # Tag params
 prune_features_on_tags: no         # removes any featurs that are on the detected tags so that only tag corners are used as features in those regions of images
