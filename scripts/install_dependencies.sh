@@ -17,7 +17,7 @@ done
 
 # install common
 sudo apt-get update
-sudo apt-get install -y git build-essential cmake pkg-config wget unzip
+sudo apt-get install -y git build-essential pkg-config wget unzip
 sudo apt-get install -y libatlas-base-dev libboost-all-dev libboost-python-dev libsuitesparse-dev libeigen3-dev libgoogle-glog-dev 
 sudo apt-get install -y python-dev python-numpy python-pip python-pyexiv2 python-pyproj python-scipy
 sudo pip install --upgrade pip
@@ -33,6 +33,21 @@ sudo pip install xmltodict==0.10.2
 # move to Downloads directory
 mkdir -p ~/Downloads
 cd ~/Downloads
+
+# cmake
+osversion=$( lsb_release -r | awk '{ print $2 }' | sed 's/[.]//' )
+if [ "$osversion" -eq "1404" ]; then
+    cd ~/Downloads
+    wget https://cmake.org/files/v3.5/cmake-3.5.2.tar.gz
+    tar xzvf cmake-3.5.2.tar.gz
+    cd cmake-3.5.2/
+    ./bootstrap
+    make -j
+    sudo make install
+    export PATH=$PATH:/usr/local/bin
+else
+    sudo apt-get install -y cmake
+fi
 
 # opencv
 sudo apt-get install -y libgtk2.0-dev libavcodec-dev libavformat-dev libswscale-dev libtbb2 libtbb-dev libjpeg-dev libpng-dev libtiff-dev libjasper-dev libdc1394-22-dev
