@@ -2,6 +2,19 @@
 # If you run this with 14.04, you will need to uninstall cmake and build an updated version (as outlined)
 # in the README.md
 
+
+# prompt user
+echo "This script will install all the dependencies for MarkerSfM. It has been"
+echo "successfully tested it with Ubuntu 14.04 and 16.04"
+echo "Do you wish to continue?"
+select yn in "Yes" "No"; do
+    case $yn in
+        Yes ) break;;
+        No ) exit;;
+    esac
+done
+
+
 # install common
 sudo apt-get update
 sudo apt-get install -y git build-essential cmake pkg-config wget unzip
@@ -17,9 +30,12 @@ sudo pip install python-dateutil==2.6.0
 sudo pip install PyYAML==3.12
 sudo pip install xmltodict==0.10.2
 
+# move to Downloads directory
+mkdir -p ~/Downloads
+cd ~/Downloads
+
 # opencv
 sudo apt-get install -y libgtk2.0-dev libavcodec-dev libavformat-dev libswscale-dev libtbb2 libtbb-dev libjpeg-dev libpng-dev libtiff-dev libjasper-dev libdc1394-22-dev
-mkdir -p ~/Downloads
 wget https://github.com/opencv/opencv/archive/3.4.3.zip
 unzip 3.4.3.zip
 cd opencv-3.4.3
