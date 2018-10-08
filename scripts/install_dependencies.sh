@@ -67,7 +67,8 @@ tar xvzf ceres-solver-1.10.0.tar.gz
 cd ceres-solver-1.10.0
 mkdir build
 cd build
-cmake .. -DCMAKE_C_FLAGS=-fPIC -DCMAKE_CXX_FLAGS=-fPIC -DBUILD_EXAMPLES=OFF -DBUILD_TESTING=OFF
+#cmake .. -DCMAKE_C_FLAGS=-fPIC -DCMAKE_CXX_FLAGS=-fPIC -DBUILD_EXAMPLES=OFF -DBUILD_TESTING=OFF
+cmake .. -DCMAKE_C_FLAGS="-fPIC -Wno-maybe-uninitialized" -DCMAKE_CXX_FLAGS="-fPIC -Wno-maybe-uninitialized" -DBUILD_EXAMPLES=OFF -DBUILD_TESTING=OFF
 make -j
 sudo make install
 
