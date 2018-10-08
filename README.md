@@ -23,7 +23,7 @@ If you find this work useful, please consider citing:
 
 
 ## Source ## 
-Follow the steps below to install and build this repo. These steps should work for Ubuntu 14.04, 16.04, and 18.04. Any differences between the ubuntu distributions are noted below. These steps are adapted from those listed for [OpenSfM](https://github.com/mapillary/OpenSfM). Note also, that OpenSfM supports Docker, which could be used as a starting point for these instructions.
+Follow the steps below to install and build this repo. These steps were tested for Ubuntu 14.04, 16.04, and 18.04. These steps are adapted from those listed for [OpenSfM](https://github.com/mapillary/OpenSfM). Note also, that OpenSfM supports Docker, which could be used as a starting point for these instructions.
 
 #### Common ####
 These are common Unix libraries used to build c++ programs from source.
