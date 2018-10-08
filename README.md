@@ -23,7 +23,24 @@ If you find this work useful, please consider citing:
 
 
 ## Source ## 
-Follow the steps below to install and build this repo. These steps were tested for Ubuntu 14.04, 16.04, and 18.04. These steps are adapted from those listed for [OpenSfM](https://github.com/mapillary/OpenSfM). Note also, that OpenSfM supports Docker, which could be used as a starting point for these instructions.
+Follow the steps below to install and build this repo. These steps were tested for Ubuntu 14.04 and 16.04. These steps are adapted from those listed for [OpenSfM](https://github.com/mapillary/OpenSfM). Note also, that OpenSfM supports Docker, which could be used as a starting point for these instructions.
+
+### Install Script ###
+The easiest way to install the dependencies is to use the `install_dependencies.sh` script in the `.../scripts` folder. If you would like to install things manually, skip to the next section. To run this install script, use the following commands:
+```
+sudo apt-get install git
+git clone https://github.com/CogChameleon/MarkerSfM.git
+cd MarkerSfM
+bash scripts/install_dependencies.sh 2>&1 | tee install_dependencies.log
+```
+
+This will write the installation output to the install_dependencies.log in case there are any problems. After that, from the `MarkerSfM` directory, use the following command to build MarkerSfM.
+```
+python setup.py build
+```
+
+### Install Manually ###
+This section will provide all the commands to do a manual install. This can be useful if you are having issues with the script or are using a different operating system besides Ubuntu 14.04 or Ubuntu 16.04.
 
 #### Common ####
 These are common Unix libraries used to build c++ programs from source.
@@ -147,7 +164,6 @@ sudo make install
 ### MarkerSfM ###
 To clone and build MarkerSfM, move to a directory where you want the source to live and then run the following commands in a Unix terminal.
 ```
-git clone https://github.com/CogChameleon/MarkerSfM.git
 cd MarkerSfM
 python setup.py build
 ```
