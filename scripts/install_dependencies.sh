@@ -43,7 +43,7 @@ if [ "$osversion" -eq "1804" ]; then
     sudo apt-get install -y aptitude
     sudo aptitude install -y libboost1.58-all-dev
     sudo aptitude install -y libboost-python1.58-dev
-    sudo aptitude insatll -y libboost1.58-all-dev
+    sudo aptitude install -y libboost1.58-all-dev
 else
     sudo apt-get install -y libboost-all-dev libboost-python-dev
 fi
