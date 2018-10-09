@@ -38,11 +38,12 @@ sudo pip install xmltodict==0.10.2
 # install boost. 1.54 for Ubuntu 14.04 and 1.58 for Ubuntu 16.04, 18.04
 if [ "$osversion" -eq "1804" ]; then
     echo "deb http://archive.ubuntu.com/ubuntu/ xenial main universe" | sudo tee -a /etc/apt/sources.list
-    echo "deb http://archive.ubuntu.com/ubuntu/ xeniel-updates main universe" | sudo tee -a /etc/apt/sources.list
+    echo "deb http://archive.ubuntu.com/ubuntu/ xenial-updates main universe" | sudo tee -a /etc/apt/sources.list
     sudo apt-get update
     sudo apt-get install -y aptitude
     sudo aptitude install -y libboost1.58-all-dev
     sudo aptitude install -y libboost-python1.58-dev
+    sudo aptitude insatll -y libboost1.58-all-dev
 else
     sudo apt-get install -y libboost-all-dev libboost-python-dev
 fi
