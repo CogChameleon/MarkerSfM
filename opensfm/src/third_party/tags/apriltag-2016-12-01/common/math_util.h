@@ -52,6 +52,10 @@ extern "C" {
 # define M_PI 3.141592653589793238462643383279502884196
 #endif
 
+#ifndef HUGE
+# define HUGE DBL_MAX
+#endif
+
 #define to_radians(x) ( (x) * (M_PI / 180.0 ))
 #define to_degrees(x) ( (x) * (180.0 / M_PI ))
 
