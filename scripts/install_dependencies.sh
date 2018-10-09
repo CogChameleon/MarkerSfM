@@ -17,6 +17,9 @@ done
 # get ubuntu version
 osversion=$( lsb_release -r | awk '{ print $2 }' | sed 's/[.]//' )
 
+# get number of processors
+NP=`nproc`
+
 # install common
 sudo apt-get update
 sudo apt-get install -y git build-essential pkg-config wget unzip
@@ -55,7 +58,7 @@ if [ "$osversion" -eq "1404" ]; then
     tar xzvf cmake-3.5.2.tar.gz
     cd cmake-3.5.2/
     ./bootstrap
-    make -j
+    make -j$NP
     sudo make install
     export PATH=$PATH:/usr/local/bin
 else
@@ -70,7 +73,7 @@ cd opencv-3.4.3
 mkdir build
 cd build
 cmake -D CMAKE_BUILD_TYPE=Release -D CMAKE_INSTALL_PREFIX=/usr/local ..
-make -j
+make -j$NP
 sudo make install
 
 # ceres
@@ -81,7 +84,7 @@ cd ceres-solver-1.10.0
 mkdir build
 cd build
 cmake .. -DCMAKE_C_FLAGS="-fPIC -Wno-maybe-uninitialized" -DCMAKE_CXX_FLAGS="-fPIC -Wno-maybe-uninitialized" -DBUILD_EXAMPLES=OFF -DBUILD_TESTING=OFF
-make -j
+make -j$NP
 sudo make install
 
 # opengv
@@ -91,5 +94,5 @@ cd opengv
 mkdir build
 cd build
 cmake .. -DBUILD_TESTS=OFF -DBUILD_PYTHON=ON
-make -j
+make -j$NP
 sudo make install
