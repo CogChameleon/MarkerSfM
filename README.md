@@ -7,7 +7,7 @@ This work explores how to use the presence of fiducial markers in scenes to impr
 You can contact Joseph DeGol (degol2@illinois.edu) with any questions, problems, or suggestions.
 
 ## License ##
-This code is released under the [BSD 2-Clause "Simplified" License](https://github.com/CogChameleon/MarkerSfM/blob/master/LICENSE). This work is built on top of [OpenSfM](https://github.com/mapillary/OpenSfM) which is also released under the [BSD 2-Clause "Simplified" License](https://github.com/mapillary/OpenSfM/blob/master/LICENSE). There are also several dependencies including [OpenCV](https://opencv.org/), [OpenGV](http://laurentkneip.github.io/opengv/), [Ceres Solver](http://ceres-solver.org/), and [Boost Python](https://www.boost.org/), each released with a license that may be worth checking depending on your needs.
+This code is released under the [BSD 2-Clause "Simplified" License](https://github.com/CogChameleon/MarkerSfM/blob/master/LICENSE). This work is built on top of [OpenSfM](https://github.com/mapillary/OpenSfM) which is also released under the [BSD 2-Clause "Simplified" License](https://github.com/mapillary/OpenSfM/blob/master/LICENSE). There are also several dependencies including [OpenCV](https://opencv.org/), [OpenGV](http://laurentkneip.github.io/opengv/), [Ceres Solver](http://ceres-solver.org/), and [Boost Python](https://www.boost.org/) (among others), each released with a license that may be worth checking depending on your needs.
 
 
 ## Citing ##
@@ -23,7 +23,7 @@ If you find this work useful, please consider citing:
 
 
 ## Source ## 
-Follow the steps below to install and build this repo. These steps were tested for Ubuntu 14.04, 16.04, and 18.04. Basically all of the dependencies match those of [OpenSfM](https://github.com/mapillary/OpenSfM). Note also, that OpenSfM supports Docker, which could be used as a starting point for these instructions.
+Follow the steps below to install and build this repo. These steps were tested for Ubuntu 14.04, 16.04, and 18.04. Basically all of the dependencies match those of [OpenSfM](https://github.com/mapillary/OpenSfM). Note also that OpenSfM supports Docker, which could be used as a starting point for these instructions.
 
 ### Dependencies ###
 The easiest way to install the dependencies is to use the `install_dependencies.sh` script in the `.../scripts` folder. This script has been tested with Ubuntu 14.04, Ubuntu 16.04 and Ubuntu 18.04. For other operating systems, I suggest using the script as a guide for what dependencies are required. To run this install script, use the following commands:
@@ -46,11 +46,11 @@ python setup.py build
 A run script is provided to process the ece_floor4_wall images. This script is located in in `.../scripts` and it is called `run_markersfm.sh`. Note, you should provide the ABSOLUTE PATH to the dataset you want to process. To run the script with the demo data, type:
 ```
 cd scripts
-bash run_markersfm.sh ~/ABSOLUTE_PATH_TO/MarkerSfM/data/ece_floor4_wall
+bash run_markersfm.sh /ABSOLUTE/PATH/TO/MarkerSfM/data/ece_floor4_wall
 ```
 
 There are also a bunch of parameters that can be set in the config.yaml file. I suggest that you copy the config.yaml in the project to each data folder you want to process. The main parameter that you definitely want to change is `processes`, which you should set to the number of vcpu's on your machine.
 
 
 ## Data ##
-Some demo data is provided with the repository to ensure things are running correctly. All the data from the paper can be downloaded from [here](http://degol2.web.engr.illinois.edu/pages/TagSfM_ECCV18.html).
+Some demo data is provided with the repository in the `data` directory to ensure things are running correctly. All the data from the paper can be downloaded from [here](http://degol2.web.engr.illinois.edu/pages/TagSfM_ECCV18.html).
