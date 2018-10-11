@@ -43,7 +43,7 @@ python setup.py build
 
 
 ## Usage ##
-A run script is provided to process the ece_floor4_wall images. This script is located in in `.../scripts` and it is called `run_markersfm.sh`. Note, you should provide the ABSOLUTE PATH to the dataset you want to process. To run the script with the demo data, type:
+A run script is provided to process the ece_floor4_wall images. This script is located in the `scripts` directory, and it is called `run_markersfm.sh`. Note, you should provide the ABSOLUTE PATH to the dataset you want to process. To run the script with the demo data, type:
 ```
 cd scripts
 bash run_markersfm.sh /ABSOLUTE/PATH/TO/MarkerSfM/data/ece_floor4_wall
