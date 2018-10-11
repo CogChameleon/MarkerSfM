@@ -26,7 +26,7 @@ If you find this work useful, please consider citing:
 Follow the steps below to install and build this repo. These steps were tested for Ubuntu 14.04, 16.04, and 18.04. Basically all of the dependencies match those of [OpenSfM](https://github.com/mapillary/OpenSfM). Note also that OpenSfM supports Docker, which could be used as a starting point for these instructions.
 
 ### Dependencies ###
-The easiest way to install the dependencies is to use the `install_dependencies.sh` script in the `.../scripts` folder. This script has been tested with Ubuntu 14.04, Ubuntu 16.04 and Ubuntu 18.04. For other operating systems, I suggest using the script as a guide for what dependencies are required. To run this install script, use the following commands:
+The easiest way to install the dependencies is to use the `install_dependencies.sh` script in the `scripts` directory. This script has been tested with Ubuntu 14.04, Ubuntu 16.04 and Ubuntu 18.04. For other operating systems, I suggest using the script as a guide for what dependencies are required. To run this install script, use the following commands:
 ```
 sudo apt-get install git
 git clone https://github.com/CogChameleon/MarkerSfM.git
