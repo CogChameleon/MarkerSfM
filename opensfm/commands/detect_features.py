@@ -26,6 +26,8 @@ class Command:
             tags = data.load_tag_detection()
         except:
             tags = {image: [] for image in images}
+        if not tags:
+            tags = {image: [] for image in images}
         arguments = [(image, tags[image], data) for image in images]
 
         start = time.time()

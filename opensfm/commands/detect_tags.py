@@ -53,10 +53,10 @@ class Command:
                 p.map(apriltag_detect,arguments)
 
         if data.config.get('use_arucotags', False):
-            print 'Use ArucoTags = True but not implemented yet.'
+            print('Use ArucoTags = True but not implemented yet.')
         
         if data.config.get('use_chromatags', False):
-            print 'Use ChromaTags = True but not implemented yet.'
+            print('Use ChromaTags = True but not implemented yet.')
 
         # merge all tag detections into one json
         logger.info('Merging tag detection files into one json.')

@@ -65,8 +65,31 @@ class DataSet:
         """
         return self.image_files[image]
 
+    def __heic_file(self, image):
+        """
+        Return path of heic file with give name
+        if it exists
+        """
+        if image in self.heic_files:
+            return self.heic_files[image]
+        else:
+            return None
+
+    def __image_has_heic(self, image):
+        """
+        Return True if image was converted from heic originally
+        and that heic is accompanying the image
+        """
+        return image in self.heic_files
+
     def load_image(self, image):
         return open(self.__image_file(image), 'rb')
+
+    def load_heic(self, image):
+        if self.__image_has_heic(image):
+            return open(self.__heic_file(image), 'rb')
+        else:
+            return None
 
     def image_as_array(self, image):
         """Return image pixels as 3-dimensional numpy array (R G B order)"""
@@ -142,11 +165,16 @@ class DataSet:
         """Set image path and find all images in there"""
         self.image_list = []
         self.image_files = {}
+        self.heic_files = {}
         if os.path.exists(path):
             for name in os.listdir(path):
                 if self.__is_image_file(name):
                     self.image_list.append(name)
                     self.image_files[name] = os.path.join(path, name)
+                    nwoe, _ = os.path.splitext(name)
+                    heicpath = os.path.join(path, nwoe + '.heic')
+                    if os.path.isfile(heicpath):
+                        self.heic_files[name] = heicpath
 
     def set_image_list(self, image_list):
             self.image_list = []
@@ -324,6 +352,10 @@ class DataSet:
         """Return path of tag matches directory"""
         return os.path.join(self.data_path, 'tag_matches')
 
+    def __other_recon_matches_path(self):
+        """Return path of other recon matches directory"""
+        return os.path.join(self.data_path, 'other_recon_matches')
+
     def __matches_file(self, image):
         """File for matches for an image"""
         return os.path.join(self.__matches_path(), '{}_matches.pkl.gz'.format(image))
@@ -331,6 +363,10 @@ class DataSet:
     def __tag_matches_file(self, image):
         """File for tag matches for an image"""
         return os.path.join(self.__tag_matches_path(), '{}_matches.pkl.gz'.format(image))
+
+    def __other_recon_matches_file(self, image):
+        """File for matches for an image"""
+        return os.path.join(self.__other_recon_matches_path(), '{}_matches.pkl.gz'.format(image))
 
     def matches_exists(self, image):
         return os.path.isfile(self.__matches_file(image))
@@ -340,6 +376,11 @@ class DataSet:
 
     def load_matches(self, image):
         with gzip.open(self.__matches_file(image), 'rb') as fin:
+            matches = pickle.load(fin)
+        return matches
+
+    def load_other_recon_matches(self, image):
+        with gzip.open(self.__other_recon_matches_file(image), 'rb') as fin:
             matches = pickle.load(fin)
         return matches
 
@@ -356,6 +397,11 @@ class DataSet:
     def save_tag_matches(self, image, matches):
         io.mkdir_p(self.__tag_matches_path())
         with gzip.open(self.__tag_matches_file(image),'wb') as fout:
+            pickle.dump(matches, fout)
+        
+    def save_other_recon_matches(self, image, matches):
+        io.mkdir_p(self.__other_recon_matches_path())
+        with gzip.open(self.__other_recon_matches_file(image), 'wb') as fout:
             pickle.dump(matches, fout)
 
     def find_matches(self, im1, im2):

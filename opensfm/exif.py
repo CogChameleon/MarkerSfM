@@ -1,6 +1,8 @@
 import datetime
+import os
 import exifread
 import logging
+import subprocess
 import xmltodict as x2d
 
 from opensfm.sensors import sensor_data
@@ -15,6 +17,8 @@ def eval_frac(value):
         return float(value.num) / float(value.den)
     except ZeroDivisionError:
         return None
+    except AttributeError:
+        return float(value)
 
 
 def gps_to_decimal(values, reference):
@@ -79,12 +83,12 @@ def camera_id(make, model, width, height, projection_type, focal):
     ]).lower()
 
 
-def extract_exif_from_file(fileobj):
+def extract_exif_from_file(fileobj, heicobj = None):
     if isinstance(fileobj, (str, unicode)):
         with open(fileobj) as f:
-            exif_data = EXIF(f)
+            exif_data = EXIF(f, heicobj)
     else:
-        exif_data = EXIF(fileobj)
+        exif_data = EXIF(fileobj, heicobj)
 
     d = exif_data.extract_exif()
     return d
@@ -121,10 +125,39 @@ def get_gpano_from_xmp(xmp):
 
 class EXIF:
 
-    def __init__(self, fileobj):
+    def __init__(self, fileobj, heicobj):
         self.tags = exifread.process_file(fileobj, details=False)
         fileobj.seek(0)
         self.xmp = get_xmp(fileobj)
+        
+        # if heic provided, lets parse that for the exif instead
+        if heicobj:
+            self.tags = exifread.process_file(heicobj)
+            self.extra = self.exif_extra(os.path.realpath(heicobj.name))
+        else:
+            self.extra = {}
+
+    def exif_extra(self, image_path):
+        
+        # empty dictionary
+        tags = {}
+
+        # run exiftool on image
+        result = subprocess.check_output(['exiftool',image_path]).decode('utf-8')
+
+        # parse each line
+        for line in result.splitlines():
+            
+            # split line into key and value
+            tokens = line.split(':')
+            key = tokens[0].strip()
+            value = tokens[1].strip()
+
+            # save as tag
+            tags[key] = value
+            
+        # save tags for later
+        return tags
 
     def extract_image_size(self):
         # Image Width and Image Height
@@ -183,14 +216,24 @@ class EXIF:
         return orientation
 
     def extract_ref_lon_lat(self):
+
+        # latitude ref
         if 'GPS GPSLatitudeRef' in self.tags:
             reflat = self.tags['GPS GPSLatitudeRef'].values
+        elif 'GPS Latitude Ref' in self.extra:
+            reflat = self.extra['GPS Latitude Ref']
         else:
             reflat = 'N'
+
+        # longitude ref
         if 'GPS GPSLongitudeRef' in self.tags:
             reflon = self.tags['GPS GPSLongitudeRef'].values
+        elif 'GPS Longitude Ref' in self.extra:
+            reflon = self.extra['GPS Longitude Ref']
         else:
             reflon = 'E'
+
+        # return
         return reflon, reflat
 
     def extract_lon_lat(self):
@@ -198,13 +241,33 @@ class EXIF:
             reflon, reflat = self.extract_ref_lon_lat()
             lat = gps_to_decimal(self.tags['GPS GPSLatitude'].values, reflat)
             lon = gps_to_decimal(self.tags['GPS GPSLongitude'].values, reflon)
+            print(lat)
+            print(lon)
+        elif 'GPS Latitude' in self.extra:
+            lat = self.extra['GPS Latitude']
+            lon = self.extra['GPS Longitude']
+            lattokens = lat.split(' ')
+            lattokens[2] = lattokens[2].replace("'","")
+            lattokens[3] = lattokens[3].replace('"','')
+            lontokens = lon.split(' ')
+            lontokens[2] = lontokens[2].replace("'","")
+            lontokens[3] = lontokens[3].replace('"','')
+            reflat = lattokens[-1]
+            reflon = lontokens[-1]
+            lat = gps_to_decimal([float(lattokens[0]), float(lattokens[2]), float(lattokens[3])], reflat)
+            lon = gps_to_decimal([float(lontokens[0]), float(lontokens[2]), float(lontokens[3])], reflon)
         else:
+            print(self.extra)
             lon, lat = None, None
         return lon, lat
 
     def extract_altitude(self):
         if 'GPS GPSAltitude' in self.tags:
             altitude = eval_frac(self.tags['GPS GPSAltitude'].values[0])
+        elif 'GPS Altitude' in self.extra:
+            alt = self.extra['GPS Altitude']
+            alttokens = alt.split(' ')
+            altitude = eval_frac(float(alttokens[0]))
         else:
             altitude = None
         return altitude
@@ -212,6 +275,9 @@ class EXIF:
     def extract_dop(self):
         if 'GPS GPSDOP' in self.tags:
             dop = eval_frac(self.tags['GPS GPSDOP'].values[0])
+        elif 'GPS DOP' in self.extra:
+            # TODO: need to parse this but haven't seen this field yet with heic
+            dop = None
         else:
             dop = None
         return dop
@@ -243,9 +309,17 @@ class EXIF:
                 except ValueError:
                     continue
                 timestamp = (d - datetime.datetime(1970, 1, 1)).total_seconds()   # Assuming d is in UTC
-                timestamp += int(str(self.tags.get(ts[1], 0))) / 1000.0;
+                timestamp += int(str(self.tags.get(ts[1], 0))) / 1000.0
                 return timestamp
         return 0.0
+
+    def extract_accel(self):
+        accel_str = self.extra.get('Acceleration Vector','0 0 0')
+        accel_str_tokens = accel_str.split(' ')
+        ax = float(accel_str_tokens[0])
+        ay = float(accel_str_tokens[1])
+        az = float(accel_str_tokens[2])
+        return (ax, ay, az)
 
     def extract_exif(self):
         width, height = self.extract_image_size()
@@ -254,6 +328,7 @@ class EXIF:
         make, model = self.extract_make(), self.extract_model()
         orientation = self.extract_orientation()
         geo = self.extract_geo()
+        accel = self.extract_accel()
         capture_time = self.extract_capture_time()
         d = {
             'camera': camera_id(make, model, width, height, projection_type, focal_ratio),
@@ -265,7 +340,8 @@ class EXIF:
             'focal_ratio': focal_ratio,
             'orientation': orientation,
             'capture_time': capture_time,
-            'gps': geo
+            'gps': geo,
+            'accel': accel
         }
         return d
 

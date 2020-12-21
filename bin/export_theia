@@ -11,7 +11,7 @@ import opensfm.io as io
 
 
 if __name__ == "__main__":
-    parser = argparse.ArgumentParser(description='Convert OpenSfM reconstructions to NVM output format')
+    parser = argparse.ArgumentParser(description='Convert OpenSfM reconstructions to theia output format')
     parser.add_argument('dataset', help='path to the dataset to be processed')
     args = parser.parse_args()
     
@@ -19,7 +19,7 @@ if __name__ == "__main__":
     data_path = args.dataset
 
     # read in data
-    nvm_file_path = data_path
+    theia_file_path = data_path
     data = dataset.DataSet(args.dataset)
     images = data.images()
 
@@ -30,4 +30,4 @@ if __name__ == "__main__":
         print('export_nvm: Failed to load reconstructions or tracks graph. May be missing...')
         exit(0)
 
-    io.export_nvm(data.images(), reconstructions, track_graph, nvm_file_path)
+    io.export_theia(data.images(), reconstructions, track_graph, theia_file_path)

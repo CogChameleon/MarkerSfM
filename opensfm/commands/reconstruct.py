@@ -33,7 +33,7 @@ class Command:
                 # read values in config
                 for k, v in new_config.items():
                     if data.config[k] != v:
-                        print 'found override: [',k,'] = ', str(v)
+                        print('found override: [',k,'] = ', str(v))
                         data.config[k] = v
 
     def run(self, args):
@@ -45,13 +45,13 @@ class Command:
             
             # check that directory exists
             if not os.path.isdir(args.experiments):
-                print '--experiments option given but directory does not exist.'
+                print('--experiments option given but directory does not exist.')
                 return
 
             # find yaml files in experiments directory
             yamls = glob.glob( os.path.join(args.experiments,'*.yaml'))
             if not yamls:
-                print 'No yaml files found in ', args.experiments
+                print('No yaml files found in ', args.experiments)
                 return
             for yaml in yamls:
 

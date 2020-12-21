@@ -45,8 +45,8 @@ class Command:
 
             # limit used detections
             ignore_tag_list = create_ignore_tag_list(data)
-            print 'Ignore Tag List: '
-            print ignore_tag_list
+            print('Ignore Tag List: ')
+            print(ignore_tag_list)
 
             # context
             ctx = Context()
@@ -350,7 +350,7 @@ def match_candidates_from_tags(images,data):
 
     # add all possible matches for any image with no tag connections
     if tag_prune_mode == 'medium' or tag_prune_mode == 'loose':
-        print 'tag matching strictness at least medium.'
+        print('tag matching strictness at least medium.')
 
         for image in images_with_no_tags:
             for candidate in images:
@@ -360,19 +360,19 @@ def match_candidates_from_tags(images,data):
 
     # merge separated components
     if tag_prune_mode == 'loose':
-        print 'tag matching strictness is loose.'
+        print('tag matching strictness is loose.')
 
         # check for multiple connected components
         cc = sorted(nx.connected_components(tags_graph), key = len, reverse=True)
         if len(cc) > 1:
 
             # print
-            print 'Merging',len(cc),'tag graph connected components in loose mode:'
+            print('Merging',len(cc),'tag graph connected components in loose mode:')
 
             # for each cc
             for cc_ct1 in range(0,len(cc)):
                 for cc_ct2 in range(cc_ct1+1,len(cc)):
-                    print '  Merging cc'+str(cc_ct1)+' with cc'+str(cc_ct2)
+                    print('  Merging cc'+str(cc_ct1)+' with cc'+str(cc_ct2))
 
                     # pull out cc's
                     cc1 = cc[cc_ct1]

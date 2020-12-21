@@ -16,14 +16,14 @@ def mkdir_p(path):
         if exc.errno != errno.EEXIST or not os.path.isdir(path):
             raise
 
-print "Configuring..."
+print("Configuring...")
 mkdir_p('cmake_build')
 subprocess.Popen(['cmake','../opensfm/src'], cwd='cmake_build').wait()
 
-print "Compiling extension..."
+print("Compiling extension...")
 subprocess.Popen(['make','-j4'], cwd='cmake_build').wait()
 
-print "Building package"
+print("Building package")
 setup(
     name='MarkerSfM',
     version='1.0',

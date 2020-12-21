@@ -55,11 +55,14 @@ def align_reconstruction_similarity(reconstruction, gcp, config):
     elif align_method == 'naive':
         return align_reconstruction_naive_similarity(reconstruction, gcp, config)
     elif config.get('optimize_with_tag_tracks',False) and align_method == 'tag_scaling':
-        return scale_reconstruction_tags(reconstruction, config)
+        s, A, b, _ = scale_reconstruction_tags(reconstruction, config) 
+        return s, A, b
     elif align_method == 'orientation_prior_tag_scaling':
         _, A, b = align_reconstruction_orientation_prior_similarity(reconstruction, config)
-        s, _, _ = scale_reconstruction_tags(reconstruction, config)
+        s, _, _, _ = scale_reconstruction_tags(reconstruction, config)
         return s, A, b
+    elif align_method == 'none':
+        return 1, np.identity(3), np.zeros(3)
     else:
         return align_reconstruction_orientation_prior_similarity(reconstruction, config)
 
@@ -91,23 +94,23 @@ def scale_reconstruction_tags(reconstruction, config):
     # for each tag
     for tag, corners in tags.iteritems():
 
-        if not None in corners:
-            # corners of tag
-            c0 = corners[0]
-            c1 = corners[1]
-            c2 = corners[2]
-            c3 = corners[3]
-
-            # distance between neighboring corners
+        # corners of tag
+        c0 = corners[0]
+        c1 = corners[1]
+        c2 = corners[2]
+        c3 = corners[3]
+        
+        if c0 and c1:
             d01 = math.sqrt( (c0[0] - c1[0])**2 + (c0[1] - c1[1])**2 + (c0[2] - c1[2])**2 )
-            d12 = math.sqrt( (c1[0] - c2[0])**2 + (c1[1] - c2[1])**2 + (c1[2] - c2[2])**2 )
-            d23 = math.sqrt( (c2[0] - c3[0])**2 + (c2[1] - c3[1])**2 + (c2[2] - c3[2])**2 )
-            d30 = math.sqrt( (c3[0] - c0[0])**2 + (c3[1] - c0[1])**2 + (c3[2] - c0[2])**2 )
-            
-            # add those distances
             dists.append(d01)
+        if c1 and c2:
+            d12 = math.sqrt( (c1[0] - c2[0])**2 + (c1[1] - c2[1])**2 + (c1[2] - c2[2])**2 )
             dists.append(d12)
+        if c2 and c3:
+            d23 = math.sqrt( (c2[0] - c3[0])**2 + (c2[1] - c3[1])**2 + (c2[2] - c3[2])**2 )
             dists.append(d23)
+        if c3 and c0:
+            d30 = math.sqrt( (c3[0] - c0[0])**2 + (c3[1] - c0[1])**2 + (c3[2] - c0[2])**2 )
             dists.append(d30)
     
     # A is identity matrix
@@ -119,13 +122,18 @@ def scale_reconstruction_tags(reconstruction, config):
     # if dists has values
     if dists:
 
-        # Scale = true_length / median(dists).  If the true lengths vary,  scale = median(true_lengths ./ dists)
-        s = tag_size / np.median(dists)
+        tag_scale_method = config.get('tag_scale_method','L1')
+        if tag_scale_method == 'L1':
+            # Scale = true_length / median(dists).  If the true lengths vary,  scale = median(true_lengths ./ dists)
+            s = tag_size / np.median(dists)
+        elif tag_scale_method == 'L2':
+            s = tag_size / np.mean(dists)
+        sigma = np.std(dists)
 
         # return
-        return s, A, b
+        return s, A, b, sigma
     else:
-        return 1, A, b
+        return 1, A, b, 0
 
 
 def align_reconstruction_naive_similarity(reconstruction, gcp, config):
@@ -145,7 +153,8 @@ def align_reconstruction_naive_similarity(reconstruction, gcp, config):
 
     # if not GPS enough points, scale with tags
     if len(X) < 3:
-        return scale_reconstruction_tags(reconstruction, config)
+        s, A, b, _ = scale_reconstruction_tags(reconstruction, config)
+        return s, A, b
 
     # Compute similarity Xp = s A X + b
     X = np.array(X)
@@ -207,7 +216,7 @@ def align_reconstruction_orientation_prior_similarity(reconstruction, config):
             X.std(axis=0).max() < 1e-8 or     # All points are the same.
             Xp.std(axis=0).max() < 0.01):      # All GPS points are the same.
         # Set the arbitrary scale proportional to the number of cameras.
-        s,_,_ = scale_reconstruction_tags(reconstruction, config)
+        s,_,_, _ = scale_reconstruction_tags(reconstruction, config)
         if s == 1:
             s = len(X) / max(1e-8, X.std(axis=0).max())
         A = Rplane

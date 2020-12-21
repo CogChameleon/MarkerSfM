@@ -512,6 +512,20 @@ def imread(filename):
     bgr = cv2.imread(filename, flags)
     return bgr[:, :, ::-1]  # Turn BGR to RGB
 
+# Theia
+def export_theia(image_list, reconstructions, track_graph, theia_file_path):
+    """
+    Generate a reconstruction file that is consistent with Theia's format
+    """
+
+    # write ray origins
+
+    # write ray directions
+
+    # write 3D points
+    
+
+    pass
 
 # NVM
 def export_nvm(image_list, reconstructions, track_graph, nvm_file_path):
@@ -743,7 +757,7 @@ def import_bundler(data_path, bundle_file, list_file, track_file,
             shot.pose.translation = t
             reconstruction.add_shot(shot)
         else:
-            print 'ignore failed image', shot_key
+            print('ignore failed image', shot_key)
         offset += 5
 
     # tracks

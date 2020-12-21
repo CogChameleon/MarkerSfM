@@ -85,7 +85,7 @@ save_partial_reconstructions: no
 
 # Params for GPS aligment
 use_altitude_tag: no                  # Use or ignore EXIF altitude tag
-align_method: orientation_prior_tag_scaling       # orientation_prior or naive or tag_scaling
+align_method: orientation_prior       # orientation_prior or naive or tag_scaling or orientation_prior_tag_scaling
 align_orientation_prior: horizontal   # horizontal, vertical or no_roll
 bundle_use_gps: yes                   # Enforce GPS position in bundle adjustment
 bundle_use_gcp: no                    # Enforce Ground Control Point position in bundle adjustment
@@ -115,7 +115,7 @@ depthmap_min_consistent_views: 3      # Min number of views that should reconstr
 depthmap_save_debug_files: no         # Save debug files with partial reconstruction results
 
 # Other params
-processes: 40                  # Number of threads to use
+processes: 12                  # Number of threads to use
 
 # Params for submodel split and merge
 submodels_relpath: "submodels"                                      # Relative path to the submodels directory
@@ -127,9 +127,9 @@ prune_features_on_tags: no         # removes any featurs that are on the detecte
 use_apriltags: yes                  # AprilTags will be detected and used for reconstruction
 use_aruco: no                      # ArucoTags will be detected and used for reconstruction
 use_chromatag: no                  # ChromaTags will be detected and used for reconstruction
-tag_tracks: no                     # creates tag tracks from 3D features. This is the first steps of tag sfm and must be on for anything else to work
+tag_tracks: yes                    # creates tag tracks from 3D features. This is the first steps of tag sfm and must be on for anything else to work
 optimize_with_tag_tracks: no       # if off, tag tracks are triangulated, but not used for anything else
-resection_with_tags: no            # if on, resectioning uses the tag graph
+resection_with_tags: yes           # if on, resectioning uses the tag graph
 tag_size: 0.1                      # size of the tags in the data in meters (e.g. 0.1 meters)
 ba_constraint_size: no             # Bundle Adjustment constraint for tag size
 ba_constraint_ortho: no            # Bundle Adjustment constraint for tag orthogonality

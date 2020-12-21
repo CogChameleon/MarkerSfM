@@ -73,7 +73,7 @@ class Command:
                 continue
 
         # start report
-        print '=============== ' + args.dataset + '==============='
+        print('=============== ' + args.dataset + '===============')
 
         # Matching Results:
 
@@ -94,12 +94,12 @@ class Command:
         if reconstructions:
 
             # Number of Reconstructions
-            print '    Number of Reconstructions: ' + str(len(reconstructions))
+            print('    Number of Reconstructions: ' + str(len(reconstructions)))
 
             # Number of Images Localized in First Reconstruction
             recon0 = reconstructions[0]
             shots0 = recon0.shots
-            print '    Localized Ims in Largest:  ' + str(len(shots0))
+            print('    Localized Ims in Largest:  ' + str(len(shots0)))
 
             # Reprojection Error
             points0 = recon0.points
@@ -114,20 +114,20 @@ class Command:
                         nor_reproj_error_list.append(point.reprojection_error)
                     tot_reproj_error_list.append(point.reprojection_error)
             if len(nor_reproj_error_list) > 0:
-                print '    Avg Reproj Error:          ' + '{0:.6f}'.format(np.mean(nor_reproj_error_list)) + ' (' + str(len(nor_reproj_error_list)) + ' points)'
-                print '    Median Reproj Error:       ' + '{0:.6f}'.format(np.median(nor_reproj_error_list))
+                print('    Avg Reproj Error:          ' + '{0:.6f}'.format(np.mean(nor_reproj_error_list)) + ' (' + str(len(nor_reproj_error_list)) + ' points)')
+                print('    Median Reproj Error:       ' + '{0:.6f}'.format(np.median(nor_reproj_error_list)))
             if len(tag_reproj_error_list) > 0:
-                print '    Avg Tag Reproj Error:      ' + '{0:.6f}'.format(np.mean(tag_reproj_error_list)) + ' (' + str(len(tag_reproj_error_list)) + ' points)'
-                print '    Median Tag Reproj Error:   ' + '{0:.6f}'.format(np.median(tag_reproj_error_list))
+                print('    Avg Tag Reproj Error:      ' + '{0:.6f}'.format(np.mean(tag_reproj_error_list)) + ' (' + str(len(tag_reproj_error_list)) + ' points)')
+                print('    Median Tag Reproj Error:   ' + '{0:.6f}'.format(np.median(tag_reproj_error_list)))
             if len(tot_reproj_error_list) > 0:
-                print '    Avg Total Reproj Error:    ' + '{0:.6f}'.format(np.mean(tot_reproj_error_list)) + ' (' + str(len(tot_reproj_error_list)) + ' points)'
-                print '    Median Total Reproj Error: ' + '{0:.6f}'.format(np.median(tot_reproj_error_list))
-                print '    Avg Total Reproj Error:    ' + '{0:.6f}'.format(4032.0*np.mean(tot_reproj_error_list)) + ' (' + str(len(tot_reproj_error_list)) + ' points)'
-                print '    Median Total Reproj Error: ' + '{0:.6f}'.format(4032.0*np.median(tot_reproj_error_list))
+                print('    Avg Total Reproj Error:    ' + '{0:.6f}'.format(np.mean(tot_reproj_error_list)) + ' (' + str(len(tot_reproj_error_list)) + ' points)')
+                print('    Median Total Reproj Error: ' + '{0:.6f}'.format(np.median(tot_reproj_error_list)))
+                print('    Avg Total Reproj Error:    ' + '{0:.6f}'.format(4032.0*np.mean(tot_reproj_error_list)) + ' (' + str(len(tot_reproj_error_list)) + ' points)')
+                print('    Median Total Reproj Error: ' + '{0:.6f}'.format(4032.0*np.median(tot_reproj_error_list)))
 
             # Time to process
-            print '    Time to Process Dataset:   ' + '{0:.2f}'.format( self.read_runtime_from_profile(data) ) + ' seconds'
+            print('    Time to Process Dataset:   ' + '{0:.2f}'.format( self.read_runtime_from_profile(data) ) + ' seconds')
 
         else:
-            print '    Number of Reconstructions: ' + str(len(reconstructions))
-        print ''
+            print('    Number of Reconstructions: ' + str(len(reconstructions)))
+        print('')

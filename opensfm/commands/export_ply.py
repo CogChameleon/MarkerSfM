@@ -14,7 +14,7 @@ class Command:
 
     def run(self, args):
         data = dataset.DataSet(args.dataset)
-        reconstructions = data.load_reconstruction()
+        reconstructions = data.load_reconstruction('reconstruction.meshed.json')
 
         if reconstructions:
             data.save_ply(reconstructions[0])

@@ -26,7 +26,8 @@ class Command:
             logging.info('Extracting focal lengths for image {}'.format(image))
 
             # EXIF data in Image
-            d = exif.extract_exif_from_file(data.load_image(image))
+            d = exif.extract_exif_from_file(data.load_image(image), data.load_heic(image))
+            print(d)
 
             # Image Height and Image Width
             if d['width'] <= 0 or not data.config['use_exif_size']:

@@ -1336,7 +1336,7 @@ class BundleAdjuster {
     ceres::Solver::Options options;
     options.linear_solver_type = ceres::SPARSE_SCHUR;
     options.num_threads = num_threads_;
-    options.num_linear_solver_threads = num_threads_;
+    //options.num_linear_solver_threads = num_threads_;
     options.max_num_iterations = max_num_iterations_;
 
     ceres::Solve(options, &problem, &last_run_summary_);

@@ -23,7 +23,7 @@ class Command:
             graph = data.load_tracks_graph()
             reconstructions = data.load_reconstruction()
         except IOError:
-            print 'mesh.py: Failed to load reconstructions or tracks graph. May be missing...'
+            print('mesh.py: Failed to load reconstructions or tracks graph. May be missing...')
             return
 
         for i, r in enumerate(reconstructions):
